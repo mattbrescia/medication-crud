@@ -24,18 +24,14 @@ So, it is necessary to create an application that helps the user with this need.
 After the user create the medication records, the grid result must be something similar to the below image.
 
 Interactions:
-- When the user click on "Add" button, the grid must be hidden, and display the form mode, to the user create a new record;
-- When the user click on "View" button, the grid must be hidden, and display the form mode, with the data of the selected record;
+- When the user click on "Add" button, the grid must be hidden, and display the detail mode, to the user create a new record;
+- When the user click on "View" button, the grid must be hidden, and display the detail mode, with the data of the selected record;
 - When the user click on "Delete" button, the selected record must be deleted from the list, and reload the list.
 
 ![grid](https://github.com/flachadriano/medication-crud/blob/master/grid.png)
 
 ### Detail mode
-When the user need to change or view more info of a record
 
-Obs:
-- It is not mandatory to add a calendar selection to set the date
-- The Dosage options must be: ml, tablet, pill
 ![form](https://github.com/flachadriano/medication-crud/blob/master/form.png)
 
 ## How to create it
