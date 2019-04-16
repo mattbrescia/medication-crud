@@ -31,6 +31,11 @@ Interactions:
 ![grid](https://github.com/flachadriano/medication-crud/blob/master/grid.png)
 
 ### Detail mode
+When the user need to change or view more info of a record
+
+Obs:
+- It is not mandatory to add a calendar selection to set the date
+- The Dosage options must be: ml, tablet, pill 
 
 ![form](https://github.com/flachadriano/medication-crud/blob/master/form.png)
 
