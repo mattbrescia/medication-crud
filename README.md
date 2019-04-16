@@ -14,9 +14,9 @@ So, it is necessary to create an application that helps the user with this need.
 
 ## Technologic Requirements
 
-1. The application must be created using a frontend framework (non specific framework required);
+1. The application must be created using a frontend framework (non specific framework required, further on jQuery);
 
-1. The application must not persist the records in a database;
+1. The application must not persist the records on backend;
 
 ## Expected result
 
@@ -48,4 +48,53 @@ Obs:
 1. Create a pull-request with the final project
 
 
+
+
 # Português
+
+Olá, neste projeto o cliente necessita de um controle de medicamentos para um hospital.
+
+Então, é necessário criar uma aplicação para auxiliar nesta necessidade.
+
+## Requisitos do usuário
+
+1. A aplicação deve permitir o cadastro de um medicamento com os campos Nome, Dosagem, Vencimento;
+
+1. A aplicação deve permitir o usuário visualizar um medicamento criado;
+
+1. A aplicação deve permitir o usuário editar um medicamento, permitindo alterar qualquer campo;.
+
+## Requisitos tecnológicos
+
+1. A aplicação deve ser criada utilizando um framework frontend (nenhum framework específico, além do jQuery);
+
+1. A aplicação não deve persistir dados no backend;
+
+## Expected result
+
+### Visualização em modo grid
+Após o usuário criar um registro de medicamento, o modo grid deve apresentar algo similar a imagem abaixo.
+
+Interações:
+- Quando o usuário clicar no botão "Add", o modo grid deve ser oculto, e apresentar o modo detalhe, para que o usuário adicione um registro;
+- Quando o usuário clicar no botão "View", o modo grid deve ser oculto, e apresentar o modo detalhe, apresentando os dados do registro selecionado;
+- Quando o usuário clicar no botão "Delete", o registro selecionado deve ser removido da lista e a lista deve ser atualizada..
+
+![grid](https://github.com/flachadriano/medication-crud/blob/master/grid.png)
+
+### Visualização em modo detalhe
+Quando o usuário necessário verificar os dados de um registro ou alterar.
+
+Obs:
+- Não é obrigatório adicionar um calendário para selecionar a data;
+- A dosagem deve conter as seguintes opções: ml, tablet, pill 
+
+![form](https://github.com/flachadriano/medication-crud/blob/master/form.png)
+
+## Como criar
+
+1. Faça o fork deste projeto;
+
+1. Implemente a aplicação no seu fork;
+
+1. Crie um pull-request com o resultado do projeto.
