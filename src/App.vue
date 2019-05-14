@@ -12,14 +12,14 @@
           <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
             <v-btn color="primary" dark class="mb-2" v-on="on">Add</v-btn>
-              <v-btn color="primary" dark class="mb-2" v-on="on" @click="detailsItem(props.item)">View</v-btn>
+              <v-btn color="primary" dark class="mb-2" @click="detailsItem">View</v-btn>
           </template>
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
             </v-card-title>
   
-            <v-card-text>
+            <v-card-text> 
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md6>
@@ -27,41 +27,39 @@
                   </v-flex>
                   <v-flex xs12 sm6 md6>
                         <v-select
-        v-model="editedItem.dosage"
-        id="dosage"
-          :items="dosages"
-          label="Dosage"
-          flat
-        ></v-select>
+                          v-model="editedItem.dosage"
+                          id="dosage"
+                          :items="dosages"
+                          label="Dosage"
+                          flat
+                      ></v-select>
                   </v-flex>
                    <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="editedItem.dueDate" label="Due Date"></v-text-field>
+                    <v-text-field v-model="editedItem.dueDate" label="Due Date"
+                     mask="##/##/####" placeholder="dd/mm/yyyy"></v-text-field>
                   </v-flex>
                 </v-layout>
               </v-container>
                 <v-container grid-list-md>
-      <v-layout row wrap>
-        <v-flex xs12 lg6>
-          <v-menu
-            ref="menu1"
-            v-model="menu1"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            lazy
-            transition="scale-transition"
-            offset-y
-            full-width
-            max-width="290px"
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-              
-              ></v-text-field>
-            </template>
-            <!-- <v-date-picker v-model="date" no-title @input="menu1 = false"></v-date-picker> -->
-          </v-menu>
-        </v-flex>
+              <v-layout row wrap>
+                  <v-flex xs12 lg6>
+                    <v-menu
+                      ref="menu1"
+                      v-model="menu1"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      lazy
+                      transition="scale-transition"
+                      offset-y
+                      full-width
+                      max-width="290px"
+                      min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                      </template>
+                      
+                    </v-menu>
+                  </v-flex>
                 </v-layout>
               </v-container>
             </v-card-text>
@@ -83,93 +81,91 @@
             <v-card-title>
               <span class="headline">{{ viewTitle }}</span>
             </v-card-title>
-  
             <v-card-text>
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md6>
-                    <v-text-field v-model="editedItem.name" label="Medication Name"></v-text-field>
+                    <v-text-field disabled v-model="viewItem.name" label="Medication Name"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md6>
                        <v-select
-        v-model="editedItem.dosage"
-        id="dosage"
-          :items="dosages"
-          label="Dosage"
-          flat
-        ></v-select>
+                          disabled
+                          v-model="viewItem.dosage"
+                          id="dosage"
+                            :items="dosages"
+                            label="Dosage"
+                            flat
+                        ></v-select>
                   </v-flex>
                    <v-flex xs12 sm12 md12>
-                    <v-text-field disabled v-model="editedItem.dueDate" label="Due Date"></v-text-field>
+                    <v-text-field disabled v-model="viewItem.dueDate" label="Due Date"></v-text-field>
                   </v-flex>
                 </v-layout>
               </v-container>
                 <v-container grid-list-md>
-      <v-layout row wrap>
-        <v-flex xs12 lg6>
-          <v-menu
-            ref="menu1"
-            v-model="menu1"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            lazy
-            transition="scale-transition"
-            offset-y
-            full-width
-            max-width="290px"
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-              
-              ></v-text-field>
-            </template>
-            <!-- <v-date-picker v-model="date" no-title @input="menu1 = false"></v-date-picker> -->
-          </v-menu>
-        </v-flex>
-                </v-layout>
+                  <v-layout row wrap>
+                    <v-flex xs12 lg6>
+                      <v-menu
+                        ref="menu1"
+                        v-model="menu1"
+                        :close-on-content-click="false"
+                        :nudge-right="40"
+                        lazy
+                        transition="scale-transition"
+                        offset-y
+                        full-width
+                        max-width="290px"
+                        min-width="290px"
+                      >
+                        <template v-slot:activator="{ on }">
+                        </template>
+                      
+                      </v-menu>
+                    </v-flex>
+                  </v-layout>
               </v-container>
             </v-card-text>
   
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
+              <v-btn color="blue darken-1" flat @click="closeView">Cancel</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
         </section>
       </v-toolbar>
-      <v-data-table
-        :headers="headers"
-        :items="medications"
-        class="elevation-1"
-      >
-        <template v-slot:items="props">
-          <v-checkbox
-          v-model="props.selected"
-          primary
-          hide-details
-        ></v-checkbox>
-          <td>{{ props.item.name }}</td>
-          <td class="">{{ props.item.dosage }}</td>
-          <td class="">{{ props.item.dueDate }}</td>
-          <td class="justify-center layout px-0">
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(props.item)"
-            >
-              edit
-            </v-icon>
-            <v-icon
-              small
-              @click="deleteItem(props.item)"
-            >
-              delete
-            </v-icon>
-          </td>
-        </template>
+        <v-data-table
+            :headers="headers"
+            :items="medications"
+            class="elevation-1"
+          >
+          <template v-slot:items="props">
+              <v-checkbox
+              @click="view(props.item)"
+              v-model="props.selected"
+              :value="checked"
+              primary
+              hide-details
+            ></v-checkbox>
+              <td>{{ props.item.name }}</td>
+              <td class="">{{ props.item.dosage }}</td>
+              <td class="">{{ props.item.dueDate }}</td>
+              <td class="justify-center layout px-0">
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="editItem(props.item)"
+                >
+                  edit
+                </v-icon>
+                <v-icon
+                  small
+                  @click="deleteItem(props.item)"
+                >
+                  delete
+                </v-icon>
+              </td>
+           </template>
         <template v-slot:no-data>
           <v-btn color="primary" @click="initialize">Reset</v-btn>
         </template>
@@ -182,7 +178,9 @@
     data: () => ({
       dialog: false,
       dialogView: false,
-      selected: [],
+      selected: {
+        checked: false,
+      },
        dosages: [
       { text: 'ml' },
       { text: 'tablet' },
@@ -200,15 +198,19 @@
           value: 'name'
         },
         { text: 'Dosage', value: 'ml' },
-        { text: 'Due Date', value: 'Lá de dentro' },
+        { text: 'Due Date', value: '' },
         ],
         menu1: false,
         menu2: false,
         date: new Date().toISOString().substr(0, 10),
-       // dateFormatted: formatDate(new Date().toISOString().substr(0, 10)),
         medications: [],
 
       editedIndex: -1,
+      viewItem: {
+        name: '',
+        dosage: '',
+        dueDate: '',
+      },
       editedItem: {
         name: '',
         dosage: '',
@@ -238,7 +240,7 @@
       dialog (val) {
         val || this.close()
       },
-      date (val) {
+      date () {
         this.dateFormatted = this.formatDate(this.date)
       }
     },
@@ -252,17 +254,17 @@
         this.medications = [
           {
             name: 'Paracetamol',
-            dosage: 'pills',
+            dosage: 'pill',
             dueDate: '25/10/1930',
            },
           {
-            name: 'Dorfiz',
-            dosage: 'pills',
+            name: 'Dorflex',
+            dosage: 'pill',
             dueDate: '27/06/2028',
           },
           {
             name: 'Ritalina',
-            dosage: 'tablets',
+            dosage: 'tablet',
             dueDate: '12/08/2019',
           },
           {
@@ -279,9 +281,7 @@
         this.dialog = true
       },
 
-      detailsItem(item){
-        this.editedIndex = this.medications.indexOf(item)
-        this.editedItem = Object.assign({}, item)
+      detailsItem(){
         this.dialogView = true
       },
 
@@ -296,6 +296,16 @@
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
           }, 300)
+        },
+
+        closeView(){
+          this.dialogView = false;
+        },
+
+        view(item) {
+          this.editedIndex = this.medications.indexOf(item)
+          this.viewItem = Object.assign({}, item)
+          this.checked = true;
         },
 
       save () {
