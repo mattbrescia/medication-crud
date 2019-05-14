@@ -178,8 +178,6 @@
 </template>
 
 <script>
-const STORAGE_KEY = 'medications-storage';
-
   export default {
     data: () => ({
       dialog: false,
@@ -305,7 +303,6 @@ const STORAGE_KEY = 'medications-storage';
           Object.assign(this.medications[this.editedIndex], this.editedItem)
         } else {
           this.medications.push(this.editedItem)
-          // saveStorage();
         }
         this.close()
         },
@@ -321,22 +318,7 @@ const STORAGE_KEY = 'medications-storage';
       const [month, day, year] = date.split('/')
       return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
       },
-      // saveStorage() {
-      //   if(localStorage.setItem(STORAGE_KEY)){
-      //   localStorage.setItem(STORAGE_KEY, JSON.stringify(this.medications));
-      //   }
-      // },
-      // loadStorage(){
-      //   if(localStorage.setItem(STORAGE_KEY)){
-      //   localStorage.getItem(STORAGE_KEY, JSON.stringify(this.medications));
-      //   }
-      // }
     }
   }
-    //  v-model="dateFormatted"
-  //               label="Date"
-  //               prepend-icon="event"
-  //               @blur="date = parseDate(dateFormatted)"
-  //               v-on="on"
 </script>
 
