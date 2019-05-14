@@ -92,9 +92,9 @@
                           disabled
                           v-model="viewItem.dosage"
                           id="dosage"
-                            :items="dosages"
-                            label="Dosage"
-                            flat
+                          :items="dosages"
+                          label="Dosage"
+                          flat
                         ></v-select>
                   </v-flex>
                    <v-flex xs12 sm12 md12>
@@ -141,11 +141,7 @@
           >
           <template v-slot:items="props">
               <v-checkbox
-              @click="view(props.item)"
-              v-model="props.selected"
-              :value="selected.checked"
-              primary
-              hide-details
+              @change="view(props.item)"
             ></v-checkbox>
               <td>{{ props.item.name }}</td>
               <td class="">{{ props.item.dosage }}</td>
@@ -178,9 +174,9 @@
     data: () => ({
       dialog: false,
       dialogView: false,
-      selected: {
-        checked: false,
-      },
+      checked: false,
+      selected: [],
+
        dosages: [
       { text: 'ml' },
       { text: 'tablet' },
@@ -207,16 +203,19 @@
 
       editedIndex: -1,
       viewItem: {
+        id: 0,
         name: '',
         dosage: '',
         dueDate: '',
       },
       editedItem: {
+        id: 0,
         name: '',
         dosage: '',
         dueDate: '',
       },
       defaultItem: {
+        id: 0,
         name: '',
         dosage: '',
         dueDate: '',
@@ -237,6 +236,14 @@
     },
 
     watch: {
+      checked(val){
+        if(val){
+          this.selected.push(this.medication)
+        } else {
+          this.checked = !this.checked
+        }
+      },
+
       dialog (val) {
         val || this.close()
       },
@@ -253,21 +260,25 @@
       initialize () {
         this.medications = [
           {
+            id: 0,
             name: 'Paracetamol',
             dosage: 'pill',
             dueDate: '25/10/1930',
            },
           {
+            id: 1,
             name: 'Dorflex',
             dosage: 'pill',
             dueDate: '27/06/2028',
           },
           {
+            id: 2,
             name: 'Ritalina',
             dosage: 'tablet',
             dueDate: '12/08/2019',
           },
           {
+            id: 3,
             name: 'Rivotril',
             dosage: 'ml',
             dueDate: '16/05/2019',
@@ -286,8 +297,20 @@
       },
 
       deleteItem (item) {
+        if(this.selected.length <= 1){
         const index = this.medications.indexOf(item)
         confirm('Are you sure you want to delete this item?') && this.medications.splice(index, 1)
+        this.selected.splice(item)
+        } else {
+          let med = this.medications
+          confirm('Are you sure you want to delete those itens?') && this.selected.forEach(function(e){
+            let tDeleted = e.item
+            med.splice(tDeleted, 1)
+          })
+          this.selected = [];
+          }
+      
+
       },
 
         close () {
@@ -303,9 +326,8 @@
         },
 
         view(item) {
-          this.editedIndex = this.medications.indexOf(item)
           this.viewItem = Object.assign({}, item)
-          this.selected.checked = true;
+          this.selected.push(this.viewItem)
         },
 
       save () {
