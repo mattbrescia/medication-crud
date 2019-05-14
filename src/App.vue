@@ -143,7 +143,7 @@
               <v-checkbox
               @click="view(props.item)"
               v-model="props.selected"
-              :value="checked"
+              :value="selected.checked"
               primary
               hide-details
             ></v-checkbox>
@@ -305,7 +305,7 @@
         view(item) {
           this.editedIndex = this.medications.indexOf(item)
           this.viewItem = Object.assign({}, item)
-          this.checked = true;
+          this.selected.checked = true;
         },
 
       save () {

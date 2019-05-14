@@ -9,8 +9,9 @@ Go in the folder of the project, execute:
 npm install
 ```
 
-## and:
+and:
 
+### Compiles and hot-reloads for development
 ```
 npm run serve
 
