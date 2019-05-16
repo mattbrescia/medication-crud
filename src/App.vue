@@ -11,8 +11,11 @@
         <section>
           <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
+              <v-btn color="primary" v-show="canDelete"
+          dark class="mb-2" @click="massDelete">Delete</v-btn>
             <v-btn color="primary" dark class="mb-2" v-on="on">Add</v-btn>
-              <v-btn color="primary" dark class="mb-2" @click="detailsItem">View</v-btn>
+           <v-btn color="primary" v-show="canView" 
+           dark class="mb-2" @click="detailsItem">View</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -142,6 +145,7 @@
           <template v-slot:items="props">
               <v-checkbox
               @change="view(props.item)"
+              :value="checked"
             ></v-checkbox>
               <td>{{ props.item.name }}</td>
               <td class="">{{ props.item.dosage }}</td>
@@ -178,10 +182,10 @@
       selected: [],
 
        dosages: [
-      { text: 'ml' },
-      { text: 'tablet' },
-      { text: 'pill' }
-      ], 
+          { text: 'ml' },
+          { text: 'tablet' },
+          { text: 'pill' }
+        ], 
       headers: [
         {
           text: 'Select',
@@ -196,33 +200,27 @@
         { text: 'Dosage', value: 'ml' },
         { text: 'Due Date', value: '' },
         ],
-        menu1: false,
-        menu2: false,
-        date: new Date().toISOString().substr(0, 10),
-        medications: [],
+      menu1: false,
+      menu2: false,
+      date: new Date().toISOString().substr(0, 10),
+      medications: [],
 
       editedIndex: -1,
-      viewItem: {
-        id: 0,
-        name: '',
-        dosage: '',
-        dueDate: '',
-      },
-      editedItem: {
-        id: 0,
-        name: '',
-        dosage: '',
-        dueDate: '',
-      },
-      defaultItem: {
-        id: 0,
-        name: '',
-        dosage: '',
-        dueDate: '',
-      }
-    }),
+      viewItem: [],
+      editedItem: [],
+      defaultItem:[],
+      alreadyView: [],
+      }),
 
     computed: {
+      canDelete(){
+        return this.selected.length > 1 ? true : false
+      },
+
+      canView() {
+        return this.selected.length === 1 ? true : false
+      },
+
       viewTitle(){
         return this.editedIndex === this.editedIndex ? 'View Item' : 'Edit Item'
       },
@@ -230,31 +228,25 @@
       formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
+
       computedDateFormatted () {
         return this.formatDate(this.date)
-      }
+      },
     },
 
     watch: {
-      checked(val){
-        if(val){
-          this.selected.push(this.medication)
-        } else {
-          this.checked = !this.checked
-        }
-      },
-
       dialog (val) {
         val || this.close()
       },
+
       date () {
         this.dateFormatted = this.formatDate(this.date)
       }
-    },
+      },
 
-    created () {
+      created () {
       this.initialize()
-    },
+      },
 
     methods: {
       initialize () {
@@ -297,38 +289,43 @@
       },
 
       deleteItem (item) {
-        if(this.selected.length <= 1){
         const index = this.medications.indexOf(item)
         confirm('Are you sure you want to delete this item?') && this.medications.splice(index, 1)
         this.selected.splice(item)
-        } else {
-          let med = this.medications
+      },
+
+      massDelete(){
+         let med = this.medications
           confirm('Are you sure you want to delete those itens?') && this.selected.forEach(function(e){
             let tDeleted = e.item
             med.splice(tDeleted, 1)
           })
           this.selected = [];
-          }
-      
-
       },
 
-        close () {
-          this.dialog = false
+      close () {
+        this.dialog = false
         setTimeout(() => {
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
           }, 300)
-        },
+      },
 
-        closeView(){
+      closeView(){
           this.dialogView = false;
-        },
+      },
 
-        view(item) {
+      view(item) {
           this.viewItem = Object.assign({}, item)
-          this.selected.push(this.viewItem)
-        },
+          const selectedNames = this.selected.map(({ name }) => name);
+          if(selectedNames.includes(this.viewItem.name)){
+          this.selected.pop(this.viewItem)
+          this.viewItem = []
+          this.alreadyView = this.viewItem.name
+            } else {
+              this.selected.push(this.viewItem)
+          }
+      },
 
       save () {
         if (this.editedIndex > -1) {
@@ -338,19 +335,21 @@
         }
         this.close()
         },
-       formatDate (date) {
-      if (!date) return null
 
-      const [year, month, day] = date.split('-')
-      return `${month}/${day}/${year}`
-      },
-    parseDate (date) {
-      if (!date) return null
+      formatDate (date) {
+        if (!date) return null
 
-      const [month, day, year] = date.split('/')
-      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        const [year, month, day] = date.split('-')
+        return `${month}/${day}/${year}`
       },
-    }
-  }
+
+      parseDate (date) {
+        if (!date) return null
+
+        const [month, day, year] = date.split('/')
+        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        },
+      }
+      }
+
 </script>
-
