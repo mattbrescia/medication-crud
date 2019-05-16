@@ -12,7 +12,8 @@
           <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
               <v-btn color="primary" v-show="canDelete"
-          dark class="mb-2" @click="massDelete">Delete</v-btn>
+          dark class="mb-2" @click="massDelete" title='Selected Delete'>
+          Selected Delete</v-btn>
             <v-btn color="primary" dark class="mb-2" v-on="on">Add</v-btn>
            <v-btn color="primary" v-show="canView" 
            dark class="mb-2" @click="detailsItem">View</v-btn>
@@ -167,7 +168,6 @@
               </td>
            </template>
         <template v-slot:no-data>
-          <v-btn color="primary" @click="initialize">Reset</v-btn>
         </template>
       </v-data-table>
   </v-app>
@@ -281,7 +281,9 @@
       editItem (item) {
         this.editedIndex = this.medications.indexOf(item)
         this.editedItem = Object.assign({}, item)
+        this.editedItem.date - this.thisEditedItem.date.formatDate()
         this.dialog = true
+        
       },
 
       detailsItem(){
